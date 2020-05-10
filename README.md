@@ -21,12 +21,12 @@ Serialization and deserialization are preformed in separate tasks (threa
 
 7. All files in the *contracts* directory are used to provide interfaces for Dependency Injection.
 
-### Design Patterns Used:
+### Design Patterns Used:
 1. Dependency Injection: This allow for the creation of the "mock database" and ContactRepository to be preformed in a single location, and used where needed throughout the app in a manner that provides consistent data and function.
 
 2. Reflection: this simplified the UI presentation and validation loop, and allow for a smaller code base. It also allows additional fields to be added to a model without needing to add much to the UI loop.
 
-### Other Techniques Used:
+### Other Techniques Used:
 1. Event-Driven Architecture: Allowed for "real time" updates, and accuracy with the contact count.
  
 2. Resource locking (Mutex): Protected shared resource (the shared file).
@@ -34,21 +34,21 @@ Serialization and deserialization are preformed in separate tasks (threa
 3. Asynchronous Programming: Allowed for resource intensive processes to be preformed in the background (not blocking the main thread).
 
 ## Explanation of Future Enhancements:
-### The command-line will be replaced with a GUI.
+### The command-line will be replaced with a GUI.
 The UI has been encapsulated to the ContactListApp.cs class, which could be converted to a Winforms, WPF, or even Web client. With Dependency Injection implemented and this encapsulation, this class could essentially be replaced with whatever desired UI the stakeholders would like.
 
-## The application will need to support capturing additional information about a person, such as email address.
+### The application will need to support capturing additional information about a person, such as email address.
 To implement this, simple additions need to be made to the Contacts.cs class. In the case of the email address, an emailAddress property could be added with a *PhoneAttribute* type data annotation added to it.
 
-## The application will need to support more complex rules/constraints such as maximum length and proper formatting on input.
+### The application will need to support more complex rules/constraints such as maximum length and proper formatting on input.
 These are, again, simple data annotation additions to the Contact.cs class.
 
-## The rules could vary depending on the customer needs so the rules need to be configurable.
+### The rules could vary depending on the customer needs so the rules need to be configurable.
 Custom rules could be implemented using the data annotation Validtor class.
 
-## The data will need to be persisted to a remote database.
+### The data will need to be persisted to a remote database.
 This would require a small change to the Program.cs class; adding AddDbContext to the services, and possibly implementing an Object/Relational Mapping (O/RM) framework such as EntityFramework Core.
 
-## The application will also need to communicate through a middle-tier in order to avoid exposing the database publicly.
+### The application will also need to communicate through a middle-tier in order to avoid exposing the database publicly.
 Essentially, if the UI (ContactListApp.cs) class was removed in favor of some sort of controller (such as one used in a MVC architecture) and a client application, and, the Datasource.cs class was replaced with a database; this application would become the middle-tier.
 
