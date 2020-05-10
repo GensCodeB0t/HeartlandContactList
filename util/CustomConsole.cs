@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Heartland.contracts;
 
@@ -14,6 +15,7 @@ namespace Heartland.util{
                 Console.SetCursorPosition(0, i);
             }
         }
+
         ///<summary>
         /// Updates the top line (used to display the count) of the console
         ///</summary>
@@ -24,14 +26,7 @@ namespace Heartland.util{
             Console.Write($"Contact count: {count}");
             Console.SetCursorPosition(curPosLeft, curPosTop);
         }
-        ///<summary>
-        /// Fetches the count and Displays it
-        ///</summary>
-        public static async Task<int> UpdateCount(IContactRepository contactRepository){
-            int _count = await contactRepository.GetCount();
-            UpdateCount(_count);
-            return _count;
-        }
         
+
     }
 }

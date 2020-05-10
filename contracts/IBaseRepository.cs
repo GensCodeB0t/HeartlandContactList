@@ -6,6 +6,6 @@ using Heartland.models;
 namespace Heartland.contracts{
     public interface IBaseRepository<T>{
         Task<int> GetCount();
-        Task Add(T t);
+        void Add(T t);
     }
 }

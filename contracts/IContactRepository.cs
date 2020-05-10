@@ -4,6 +4,8 @@ using System.Threading;
 using Heartland.models;
 
 namespace Heartland.contracts{
-    public interface IContactRepository : IBaseRepository<Contact>{ } 
+    public interface IContactRepository : IBaseRepository<Contact>{ 
+        event EventHandler CountAddedEvent;
+    } 
     
 }

@@ -6,10 +6,13 @@ using Heartland.contracts;
 using Heartland.data;
 using Heartland.models;
 using Heartland.util;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace Heartland.repositories{
     public class ContactRepository : IContactRepository
     {
+        public event EventHandler CountAddedEvent;
         private IDbContext _database;
         public ContactRepository(IDbContext database)
         {
@@ -19,9 +22,10 @@ namespace Heartland.repositories{
         ///<summary>
         /// Adds a contact to the DbContext
         ///</summary>
-        public async Task Add(Contact t)
+        public async void Add(Contact t)
         {
             await _database.Contacts.Add(t);
+            CountAddedEvent.Invoke(this, EventArgs.Empty);
         }
 
         ///<summary>
@@ -31,5 +35,6 @@ namespace Heartland.repositories{
         {
             return _database.Contacts.GetCount();
         }
+
     }
 }

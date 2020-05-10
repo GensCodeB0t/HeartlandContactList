@@ -10,17 +10,19 @@ using Heartland.util;
 namespace Heartland{
     public class ContactsListApp{
         private  IContactRepository _ContactRepository;
+        
         public ContactsListApp(IContactRepository contactRepository)
         {
             // Initialize
             _ContactRepository = contactRepository;
+            _ContactRepository.CountAddedEvent += HandleUpdateCount;
         }
         public async Task Run()
         {
             // Setup Console
             Console.Clear();
             Console.WriteLine();
-            await CustomConsole.UpdateCount(_ContactRepository);
+            await UpdateCount();
 
             Contact _contact = new Contact();
             do{
@@ -36,8 +38,8 @@ namespace Heartland{
                     var _customAttributes = prop.GetCustomAttributes();
                     do{
                         _IsValidProp = true;
+
                         // Pompt user
-                        
                         _optionalString = _optional == null? "[OPTIONAL]" : "";
                         Console.WriteLine($"Please enter a value for the contact's {_name} {_optionalString}");
 
@@ -71,11 +73,21 @@ namespace Heartland{
                 }
 
                 // Update contact list and count
-                await _ContactRepository.Add(_contact);
-                
+                _ContactRepository.Add(_contact);
 
                 Console.WriteLine("Enter {ESC} quit, {ANY OTHER KEY} add new contact");
             } while(Console.ReadKey().Key != ConsoleKey.Escape);
+        }
+        private async void HandleUpdateCount(object sender, EventArgs args){
+            await UpdateCount();
+        }
+
+        ///<summary>
+        /// Gets count and updates the top line (used to display the count) of the console
+        ///</summary>
+        public async Task UpdateCount(){
+            var _count = await _ContactRepository.GetCount();
+            CustomConsole.UpdateCount(_count);
         }
     }
 }

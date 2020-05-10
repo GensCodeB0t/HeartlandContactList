@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using System.Threading;
 
 namespace Heartland.data{
-    public class Datasource<T>{
-        private static Mutex mut = new Mutex(false, "HearlandContactList");
+    public class Datasource<T> : IDisposable{
+        private readonly Mutex mut;
+        const string MUTEX_NAME = "HearlandContactList";
+        const int MUTEX_TIMEOUT = 5000;
         private string filePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
             ,$"Heartland\\{typeof(T).Name}.data"
@@ -16,6 +18,13 @@ namespace Heartland.data{
 
         public Datasource()
         {
+            var doesMutexExist = Mutex.TryOpenExisting(MUTEX_NAME, out mut);
+            if(!doesMutexExist){
+                mut = new Mutex(true, MUTEX_NAME);
+                mut.ReleaseMutex();
+            }
+                
+            
             if(!Directory.Exists(Path.GetDirectoryName(filePath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath));
         }
@@ -25,20 +34,19 @@ namespace Heartland.data{
         ///</summary>
         ///<param name="values">IQueryable<T> of values to serialize</param>
         private async Task Serialize(IQueryable<T> values){
-            try{
-                mut.WaitOne();
-                using (FileStream fs = File.Create(filePath))
-                {
+            await Task.Run(() =>{
+                try{
+                    mut.WaitOne(MUTEX_TIMEOUT);
                     var options = new JsonSerializerOptions();
                     options.WriteIndented = true;
-                    await JsonSerializer.SerializeAsync(fs, values, options);
-                }
-                mut.ReleaseMutex();
-            } catch(AbandonedMutexException e) {
-                // Notify the user and/or try again
-            } catch(Exception e) {
-                
-            }
+                    var jsonString = JsonSerializer.Serialize(values, options);
+                    File.WriteAllText(filePath, jsonString);
+                    mut.ReleaseMutex();
+                } catch(Exception e) {
+                    mut.ReleaseMutex();
+                } 
+            });
+            
         }
 
         ///<summary>
@@ -47,18 +55,20 @@ namespace Heartland.data{
         ///<returns>IQueryable<T> of values to from a file</returns>
         private async Task<IQueryable<T>> Deserialize(){
             if(File.Exists(filePath)){
-                try{
-                    using (FileStream fs = File.OpenRead(filePath))
-                    {
-                        var _values = await JsonSerializer.DeserializeAsync<T[]>(fs);
+                return await Task.Run(() =>{
+                    try{
+                        mut.WaitOne(MUTEX_TIMEOUT);
+                        var jsonString = File.ReadAllText(filePath);
+                        var _values = JsonSerializer.Deserialize<T[]>(jsonString);
+                        mut.ReleaseMutex();
                         if(_values != null)
                             return _values.AsQueryable();
-                    } 
-                } catch(AbandonedMutexException e) {
-                // Notify the user and/or try again
-                } catch(Exception e) {
-                    
-                }
+                    } catch(Exception e) {
+                        mut.ReleaseMutex();
+                    }
+                    return null;
+                });
+                
             }
             return null;
         }
@@ -83,6 +93,12 @@ namespace Heartland.data{
         public async Task<int> GetCount(){
             var values = await Deserialize();
             return values != null? values.Count() : 0;
+        }
+
+        public void Dispose()
+        {
+            mut.ReleaseMutex();
+            mut.Close();
         }
     }
 }
