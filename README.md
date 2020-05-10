@@ -51,4 +51,3 @@ This would require a small change to the Program.cs class; adding Add
 
 ## The application will also need to communicate through a middle-tier in order to avoid exposing the database publicly.
 Essentially, if the UI (ContactListApp.cs) class was removed in favor of some sort of controller (such as one used in a MVC architecture) and a client application, and, the Datasource.cs class was replaced with a database; this application would become the middle-tier.
-
