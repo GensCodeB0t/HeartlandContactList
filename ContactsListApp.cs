@@ -16,6 +16,7 @@ namespace Heartland{
             // Initialize
             _ContactRepository = contactRepository;
             _ContactRepository.CountAddedEvent += HandleUpdateCount;
+            _ContactRepository.StartListeningForUpdateCount();
         }
         public async Task Run()
         {
@@ -78,8 +79,8 @@ namespace Heartland{
                 Console.WriteLine("Enter {ESC} quit, {ANY OTHER KEY} add new contact");
             } while(Console.ReadKey().Key != ConsoleKey.Escape);
         }
-        private async void HandleUpdateCount(object sender, EventArgs args){
-            await UpdateCount();
+        private void HandleUpdateCount(object sender, EventArgs args){
+            UpdateCount().Wait();
         }
 
         ///<summary>
