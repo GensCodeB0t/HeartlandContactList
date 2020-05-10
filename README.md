@@ -17,24 +17,23 @@ Serialization and deserialization are preformed in separate tasks (threa
 
 5. The Contact.cs class acts as a model for the type of Entity to be stored in the datasource. Data Annotation are added to the properties of this class to aid in validation, and provide a "screen display name" used in the UI.
 
+6. The DbContext.cs, in this case, acts as a mock database context.
 
-6. The DbContext.cs, in this case, acts as a mock database context.
-
-7. All files in the *contracts* directory are used to provide interfaces for Dependency Injection.
+7. All files in the *contracts* directory are used to provide interfaces for Dependency Injection.
 
 ### Design Patterns Used:
-1. Dependency Injection: This allow for the creation of the "mock database" and ContactRepository to be preformed in a single location, and used where needed throughout the app in a manner that provides consistent data and function.
+1. Dependency Injection: This allow for the creation of the "mock database" and ContactRepository to be preformed in a single location, and used where needed throughout the app in a manner that provides consistent data and function.
 
-2. Reflection: this simplified the UI presentation and validation loop, and allow for a smaller code base. It also allows additional fields to be added to a model without needing to add much to the UI loop.
+2. Reflection: this simplified the UI presentation and validation loop, and allow for a smaller code base. It also allows additional fields to be added to a model without needing to add much to the UI loop.
 
 ### Other Techniques Used:
-1. Event-Driven Architecture: Allowed for "real time" updates, and accuracy with the contact count. 
+1. Event-Driven Architecture: Allowed for "real time" updates, and accuracy with the contact count.
+ 
+2. Resource locking (Mutex): Protected shared resource (the shared file).
 
-2. Resource locking (Mutex): Protected shared resource (the shared file).
+3. Asynchronous Programming: Allowed for resource intensive processes to be preformed in the background (not blocking the main thread).
 
-3. Asynchronous Programming: Allowed for resource intensive processes to be preformed in the background (not blocking the main thread).
-
-## Explanation of Future Enhancements:
+## Explanation of Future Enhancements:
 ### The command-line will be replaced with a GUI.
 The UI has been encapsulated to the ContactListApp.cs class, which could be converted to a Winforms, WPF, or even Web client. With Dependency Injection implemented and this encapsulation, this class could essentially be replaced with whatever desired UI the stakeholders would like.
 
