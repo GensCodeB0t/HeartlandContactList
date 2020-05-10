@@ -1,0 +1,11 @@
+C:\Users\Ryan\Repos\Heartland\bin\Debug\netcoreapp2.2\Heartland.deps.json
+C:\Users\Ryan\Repos\Heartland\bin\Debug\netcoreapp2.2\Heartland.runtimeconfig.json
+C:\Users\Ryan\Repos\Heartland\bin\Debug\netcoreapp2.2\Heartland.runtimeconfig.dev.json
+C:\Users\Ryan\Repos\Heartland\bin\Debug\netcoreapp2.2\Heartland.dll
+C:\Users\Ryan\Repos\Heartland\bin\Debug\netcoreapp2.2\Heartland.pdb
+C:\Users\Ryan\Repos\Heartland\obj\Debug\netcoreapp2.2\Heartland.csprojAssemblyReference.cache
+C:\Users\Ryan\Repos\Heartland\obj\Debug\netcoreapp2.2\Heartland.csproj.CoreCompileInputs.cache
+C:\Users\Ryan\Repos\Heartland\obj\Debug\netcoreapp2.2\Heartland.AssemblyInfoInputs.cache
+C:\Users\Ryan\Repos\Heartland\obj\Debug\netcoreapp2.2\Heartland.AssemblyInfo.cs
+C:\Users\Ryan\Repos\Heartland\obj\Debug\netcoreapp2.2\Heartland.dll
+C:\Users\Ryan\Repos\Heartland\obj\Debug\netcoreapp2.2\Heartland.pdb
