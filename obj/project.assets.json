@@ -73,11 +73,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ryan\\Repos\\Heartland\\Heartland.csproj",
+      "projectUniqueName": "C:\\Users\\Ryan\\Repos\\Heartland\\HeartlandContactList\\Heartland.csproj",
       "projectName": "Heartland",
-      "projectPath": "C:\\Users\\Ryan\\Repos\\Heartland\\Heartland.csproj",
+      "projectPath": "C:\\Users\\Ryan\\Repos\\Heartland\\HeartlandContactList\\Heartland.csproj",
       "packagesPath": "C:\\Users\\Ryan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ryan\\Repos\\Heartland\\obj\\",
+      "outputPath": "C:\\Users\\Ryan\\Repos\\Heartland\\HeartlandContactList\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
