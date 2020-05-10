@@ -27,7 +27,7 @@ namespace Heartland{
 
             Contact _contact = new Contact();
             do{
-                CustomConsole.ClearConsole();
+                ClearConsole();
                 foreach(var prop in typeof(Contact).GetProperties()){
                     bool _IsValidProp = true;
                     string _optionalString = "";
@@ -70,7 +70,7 @@ namespace Heartland{
                         
                     }while(!_IsValidProp);
 
-                    CustomConsole.ClearConsole();
+                    ClearConsole();
                 }
 
                 // Update contact list and count
@@ -88,7 +88,29 @@ namespace Heartland{
         ///</summary>
         public async Task UpdateCount(){
             var _count = await _ContactRepository.GetCount();
-            CustomConsole.UpdateCount(_count);
+            UpdateCount(_count);
+        }
+
+        ///<summary>
+        /// Clears all but the top line (used to display the count) of the console
+        ///</summary>
+        public void ClearConsole(){
+            for(var i = Console.CursorTop; i > 0; i--){
+                Console.SetCursorPosition(0, i);
+                Console.Write(new string(' ', Console.WindowWidth)); 
+                Console.SetCursorPosition(0, i);
+            }
+        }
+
+        ///<summary>
+        /// Updates the top line (used to display the count) of the console
+        ///</summary>
+        public void UpdateCount(int count){
+            var curPosTop = Console.CursorTop;
+            var curPosLeft = Console.CursorLeft;
+            Console.SetCursorPosition(0, 0);
+            Console.Write($"Contact count: {count}");
+            Console.SetCursorPosition(curPosLeft, curPosTop);
         }
     }
 }
